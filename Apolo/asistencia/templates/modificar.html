@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block content %}
+
+<head>
+    <title>Configuración de Usuario</title>
+    <style>
+        /* Tus estilos CSS personalizados para esta página */
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f0e6d2;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Esto centrará el contenido principal */
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #f0e6d2;
+            color: #01304a;
+            padding: 15px 0;
+            width: 100%; /* Asegura que ocupe todo el ancho */
+            display: flex;
+            justify-content: center; /* Centra los botones */
+        }
+
+        .navbar button {
+            background: none;
+            border: none;
+            color: #01304a;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar button:hover {
+            background-color: #555;
+        }
+
+        /* Container Styles */
+        .container {
+            background-color: #eae7b1;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            margin-right: 350px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200%;
+            max-width: 600px;
+            position: relative; /* Necesario para posicionar la notificación */
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 2px solid #557c5c;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #557c5c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #f5c6cb;
+        }
+
+        /* Estilos de la notificación emergente */
+        .notification {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50; /* Verde */
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 10; /* Asegura que esté por encima del contenido */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+
+    </div>
+
+    <div class="container" id="personalInfoContainer">
+        <h2>Información Personal</h2>
+        <form id="personalInfoForm">
+            <div class="form-group">
+                <label for="nombre_usuario">Cambiar Nombre de Usuario</label>
+                <input type="text" id="nombre_usuario" name="nombre_usuario">
+            </div>
+            <div class="form-group">
+                <label for="contrasena">Cambiar Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Cambiar Número de Teléfono</label>
+                <input type="tel" id="telefono" name="telefono">
+            </div>
+            <button type="submit">Aplicar Cambios</button>
+        </form>
+        <div id="notificationPersonalInfo" class="notification">Los cambios se han realizado con éxito</div>
+    </div>
+
+    <div class="container" id="updateInfoContainer">
+        <h2>Actualizar Información</h2>
+        <form id="updateInfoForm">
+            <div class="form-group">
+                <label for="nivel_estudios">Actualizar Nivel de Estudios</label>
+                <select id="nivel_estudios" name="nivel_estudios">
+                    <option value="">Seleccionar nivel</option>
+                    <option value="primaria">Primaria</option>
+                    <option value="bachillerato">Bachillerato</option>
+                    <option value="posgrado">Técnico</option>
+                    <option value="posgrado">Tecnologo</option>
+                    <option value="universitario">Universitario</option>
+                    <option value="posgrado">Posgrado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="experiencia">Actualizar Experiencia (Descripción)</label>
+                <textarea id="experiencia" name="experiencia" rows="4"></textarea>
+            </div>
+            <button type="submit">Aplicar Cambios</button>
+        </form>
+        <div id="notificationUpdateInfo" class="notification">Los cambios se han realizado con éxito</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const personalInfoForm = document.getElementById('personalInfoForm');
+            const notificationPersonalInfo = document.getElementById('notificationPersonalInfo');
+            const updateInfoForm = document.getElementById('updateInfoForm');
+            const notificationUpdateInfo = document.getElementById('notificationUpdateInfo');
+
+            personalInfoForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita la recarga de la página
+                showNotification(notificationPersonalInfo);
+                // Aquí iría el código para enviar los datos del formulario
+                setTimeout(() => {
+                    hideNotification(notificationPersonalInfo);
+                }, 3000); // Ocultar la notificación después de 3 segundos
+            });
+
+            updateInfoForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Evita la recarga de la página
+                showNotification(notificationUpdateInfo);
+                // Aquí iría el código para enviar los datos del formulario
+                setTimeout(() => {
+                    hideNotification(notificationUpdateInfo);
+                }, 3000); // Ocultar la notificación después de 3 segundos
+            });
+
+            function showNotification(notificationElement) {
+                notificationElement.classList.add('show');
+            }
+
+            function hideNotification(notificationElement) {
+                notificationElement.classList.remove('show');
+            }
+        });
+    </script>
+
+</body>
+</html>
+{% endblock content %}
