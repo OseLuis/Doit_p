@@ -32,6 +32,4 @@ urlpatterns = [
     path('diccionario_de_datos/', views.diccionario_de_datos, name='diccionario_de_datos'),
     path('diagrama_de_clases/', views.diagrama_de_clases, name='diagrama_de_clases'),
     path('reserva/', views.reserva, name='reserva'),
-    # Y la URL de éxito que ya teníamos para el registro
-    path('registro-exitoso/', views.registro_exitoso, name='registro_exitoso'),
 ]

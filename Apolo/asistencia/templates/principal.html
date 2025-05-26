@@ -14,9 +14,9 @@
     <div class="header-container">
         <div class="perfil-header">
             <div class="perfil-foto-container">
-                <img src="{% static 'images/fotoperfilMuj.jpg' %}" alt="Foto de perfil de Juliana" class="perfil-foto">
-                <p class="perfil-nombre">Juliana</p>
-            </div>
+                <img src="{% static 'images/fotoperfilMuj.jpg' %}" alt="Foto de perfil del usuario" class="perfil-foto">
+                {# ¡CAMBIO CRUCIAL AQUÍ! #}
+                <p class="perfil-nombre">{{ user.first_name|default:'' }} {{ user.last_name|default:'' }}</p>            
             <div>
                 <a href="{% url 'modificar' %}">
                 <button class="modificar-perfil-btn">Modificar perfil</button>

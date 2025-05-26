@@ -2,19 +2,20 @@
 
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.contrib.auth import login as auth_login # <--- ¡CAMBIO AQUÍ! Importa la función de autenticación de Django como 'auth_login'
+from django.contrib.auth import login as auth_login
 from .forms import RegistroForm
 
-# --- Vistas existentes (mantener igual si funcionan) ---
+# --- Vistas existentes ---
 def home(request):
     return render(request, 'home.html')
 
 def nosotros(request):
     return render(request, 'nosotros.html')
 
-def principal(request):
+def principal(request): # Esta es la vista que renderiza principal.html
     return render(request, 'principal.html')
 
+# ¡AGREGA ESTAS VISTAS FALTANTES!
 def busc_experto(request):
     return render(request, 'busc_experto.html')
 
@@ -64,7 +65,7 @@ def diagrama_de_clases(request):
     return render(request, 'diagrama_de_clases.html')
 
 # --- ¡CAMBIO AQUÍ! Renombra tu vista de login ---
-def user_login_view(request): # O cualquier otro nombre que no sea 'login'
+def user_login_view(request):
     return render(request, 'sign-in/login.html')
 
 def login_experto(request):
@@ -79,17 +80,16 @@ def admin_principal(request):
 def solicitudes_admin(request):
     return render(request, 'solicitudes_admin.html')
 
-
-# --- Vistas de Registro Actualizadas ---
+# --- Vistas de Registro Actualizadas (Ya las tienes bien configuradas para redirigir a 'principal') ---
 def registrarse(request):
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
             user = form.save()
-            auth_login(request, user) # <--- ¡CAMBIO AQUÍ! Llama a la función de autenticación de Django
-            return redirect(reverse_lazy('registro_exitoso'))
+            auth_login(request, user)
+            return redirect(reverse_lazy('principal'))
         else:
-            print(form.errors) # Mantenlo para depuración
+            print(form.errors)
     else:
         form = RegistroForm(initial={'tipo_usuario': 'usuario'})
     return render(request, 'registrarse.html', {'form': form})
@@ -102,18 +102,13 @@ def regisexperto(request):
             user.tipo_usuario = 'experto'
             user.save()
 
-            auth_login(request, user) # <--- ¡CAMBIO AQUÍ! Llama a la función de autenticación de Django
-            return redirect(reverse_lazy('registro_exitoso'))
+            auth_login(request, user)
+            return redirect(reverse_lazy('principal'))
         else:
-             print(form.errors) # Mantenlo para depuración
+            print(form.errors)
     else:
         form = RegistroForm(initial={'tipo_usuario': 'experto'})
     return render(request, 'regisexperto.html', {'form': form})
-
-
-# --- Nueva Vista para Éxito de Registro ---
-def registro_exitoso(request):
-    return render(request, 'registro_exitoso.html')
 
 # --- Otras vistas existentes ---
 def terminos_condiciones(request):
