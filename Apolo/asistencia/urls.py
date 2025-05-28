@@ -1,17 +1,18 @@
 # asistencia/urls.py
 
 from django.urls import path
-from . import views # Importa las vistas desde la misma aplicación
+from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.user_login_view, name='login'),
+    path('logout/', views.user_logout_view, name='logout'), # ¡Añade esta línea!
     path('login_experto/', views.login_experto, name='login_experto'),
+    path('login_admin/', views.login_admin, name='login_admin'),
     path('principal/', views.principal, name='principal'),
     path('busc_experto/', views.busc_experto, name='busc_experto'),
     path('admin_principal/', views.admin_principal, name='admin_principal'),
     path('solicitudes_admin/', views.solicitudes_admin, name='solicitudes_admin'),
-    path('login_admin/', views.login_admin, name='login_admin'),
     path('modificar/', views.modificar, name='modificar'),
     path('servicioAceptado/', views.servicioAceptado, name='servicioAceptado'),
     path('servicioAceptadoexpe/', views.servicioAceptadoexpe, name='servicioAceptadoexpe'),
@@ -32,4 +33,5 @@ urlpatterns = [
     path('diccionario_de_datos/', views.diccionario_de_datos, name='diccionario_de_datos'),
     path('diagrama_de_clases/', views.diagrama_de_clases, name='diagrama_de_clases'),
     path('reserva/', views.reserva, name='reserva'),
+
 ]
