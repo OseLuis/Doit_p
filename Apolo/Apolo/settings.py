@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """
 Django settings for Apolo project.
 
@@ -10,6 +11,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+=======
+# tu_proyecto/settings.py
+>>>>>>> origin/master
 
 import os
 from pathlib import Path
@@ -31,7 +35,10 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,9 +46,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+<<<<<<< HEAD
     'asistencia', # Tu app actual, la mantendremos.
 ]
 
+=======
+    'asistencia', # Tu aplicación
+    'widget_tweaks', # Si lo estás usando
+]
+
+
+>>>>>>> origin/master
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,8 +72,12 @@ ROOT_URLCONF = 'Apolo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+<<<<<<< HEAD
         # --- ¡IMPORTANTE! Añade una carpeta para plantillas globales si la usas ---
         'DIRS': [os.path.join(BASE_DIR, 'templates')], # Esto es útil si tienes plantillas que no son específicas de una app
+=======
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Esto es útil si tienes plantillas globales
+>>>>>>> origin/master
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +94,7 @@ WSGI_APPLICATION = 'Apolo.wsgi.application'
 
 
 # Database
+<<<<<<< HEAD
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
@@ -89,15 +109,31 @@ DATABASES = {
             'charset': 'utf8mb4',
             # 'use_unicode': True, # Esto ya no es necesario en versiones recientes de Django/Python 3 con utf8mb4
             'read_default_file': os.path.join(BASE_DIR, 'my.cnf'), # Asegúrate de que este archivo exista y esté configurado
+=======
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'DOIT',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'PORT': '3308',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+            'read_default_file': os.path.join(BASE_DIR, 'my.cnf'), # Asegúrate de que este archivo exista
+>>>>>>> origin/master
         },
     }
 }
 
 # Password validation
+<<<<<<< HEAD
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'asistencia.CustomUser'
 
+=======
+>>>>>>> origin/master
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -113,6 +149,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+<<<<<<< HEAD
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -123,10 +160,25 @@ TIME_ZONE = 'America/Bogota' # ¡Importante! Cambia 'UTC' a la zona horaria de t
 
 USE_I18N = True
 
+=======
+# --- ¡Configuración de Autenticación Consolidada y Correcta! ---
+# Usa el nombre de la URL para mayor flexibilidad
+LOGIN_URL = 'login'
+# Redirige a 'principal' después de un login exitoso
+LOGIN_REDIRECT_URL = 'principal'
+# Redirige a 'home' después de cerrar sesión
+LOGOUT_REDIRECT_URL = 'home'
+
+# Internationalization
+LANGUAGE_CODE = 'es-co'
+TIME_ZONE = 'America/Bogota'
+USE_I18N = True
+>>>>>>> origin/master
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
+<<<<<<< HEAD
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
@@ -146,3 +198,14 @@ AUTH_USER_MODEL = 'asistencia.CustomUser'
 LOGIN_REDIRECT_URL = '/dashboard/' # O la URL a la que quieras redirigir después de un login exitoso
 LOGOUT_REDIRECT_URL = '/' # O la URL a la que quieras redirigir después de un logout
 LOGIN_URL = '/login/' # La URL de tu vista de login, si no es la default de Django
+=======
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- ¡IMPORTANTE! Para usar tu modelo de usuario personalizado ---
+# Asegúrate de que 'asistencia' sea el nombre correcto de tu aplicación
+AUTH_USER_MODEL = 'asistencia.CustomUser'
+>>>>>>> origin/master

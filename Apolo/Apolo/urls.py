@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+<<<<<<< HEAD
     # URLs del administrador de Django
     path('admin/', admin.site.urls),
 
@@ -18,4 +19,8 @@ urlpatterns = [
     # Por ahora, puedes dejarla si quieres que /asistencia/ también funcione,
     # pero el acceso principal será sin el prefijo /asistencia/.
     # Mi recomendación es eliminar la redundante si quieres que la raíz sea tu app.
+=======
+    path('admin/', admin.site.urls),
+    path('', include('asistencia.urls')),
+>>>>>>> origin/master
 ]
