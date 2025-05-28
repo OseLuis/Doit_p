@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 Django settings for Apolo project.
 
@@ -10,10 +9,6 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
-=======
-# tu_proyecto/settings.py
->>>>>>> origin/master
 
 import os
 from pathlib import Path
@@ -35,10 +30,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/master
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,23 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'asistencia', # Tu app actual, la mantendremos.
-]
-
-=======
     'asistencia', # Tu aplicación
     'widget_tweaks', # Si lo estás usando
 ]
 
-
->>>>>>> origin/master
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -72,12 +51,7 @@ ROOT_URLCONF = 'Apolo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-<<<<<<< HEAD
-        # --- ¡IMPORTANTE! Añade una carpeta para plantillas globales si la usas ---
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Esto es útil si tienes plantillas que no son específicas de una app
-=======
-        'DIRS': [os.path.join(BASE_DIR, 'templates')], # Esto es útil si tienes plantillas globales
->>>>>>> origin/master
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,26 +64,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Apolo.wsgi.application'
-
-
-# Database
-<<<<<<< HEAD
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'doit_prueba',
-        'USER': 'root',
-        'PASSWORD': '12345',
-        'HOST': '127.0.0.1',
-        'PORT': '3307',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-            # 'use_unicode': True, # Esto ya no es necesario en versiones recientes de Django/Python 3 con utf8mb4
-            'read_default_file': os.path.join(BASE_DIR, 'my.cnf'), # Asegúrate de que este archivo exista y esté configurado
-=======
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -121,19 +75,14 @@ DATABASES = {
         'OPTIONS': {
             'charset': 'utf8mb4',
             'read_default_file': os.path.join(BASE_DIR, 'my.cnf'), # Asegúrate de que este archivo exista
->>>>>>> origin/master
         },
     }
 }
 
+# Internationalization
+# https://docs.djangoproject.com/en/5.1/topics/i18n/
+
 # Password validation
-<<<<<<< HEAD
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
-AUTH_USER_MODEL = 'asistencia.CustomUser'
-
-=======
->>>>>>> origin/master
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -149,63 +98,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-<<<<<<< HEAD
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
-LANGUAGE_CODE = 'es-co'
-
-TIME_ZONE = 'America/Bogota' # ¡Importante! Cambia 'UTC' a la zona horaria de tu aplicación, por ejemplo, 'America/Bogota'
-
-USE_I18N = True
-
-=======
-# --- ¡Configuración de Autenticación Consolidada y Correcta! ---
-# Usa el nombre de la URL para mayor flexibilidad
-LOGIN_URL = 'login'
-# Redirige a 'principal' después de un login exitoso
-LOGIN_REDIRECT_URL = 'principal'
-# Redirige a 'home' después de cerrar sesión
-LOGOUT_REDIRECT_URL = 'home'
-
 # Internationalization
 LANGUAGE_CODE = 'es-co'
 TIME_ZONE = 'America/Bogota'
 USE_I18N = True
->>>>>>> origin/master
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-<<<<<<< HEAD
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [os.path.join (BASE_DIR, "static"),]
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# --- ¡IMPORTANTE! Añade esta línea para usar tu modelo de usuario personalizado ---
-# Asegúrate de que 'app' sea el nombre de tu aplicación donde tienes el CustomUser
-AUTH_USER_MODEL = 'asistencia.CustomUser'
-
-# --- Configuración de Redirección después de Login/Logout (Opcional, pero útil) ---
-LOGIN_REDIRECT_URL = '/dashboard/' # O la URL a la que quieras redirigir después de un login exitoso
-LOGOUT_REDIRECT_URL = '/' # O la URL a la que quieras redirigir después de un logout
-LOGIN_URL = '/login/' # La URL de tu vista de login, si no es la default de Django
-=======
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- ¡IMPORTANTE! Para usar tu modelo de usuario personalizado ---
-# Asegúrate de que 'asistencia' sea el nombre correcto de tu aplicación
+# Custom user model
 AUTH_USER_MODEL = 'asistencia.CustomUser'
->>>>>>> origin/master
+
+# Authentication redirects
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'principal'
+LOGOUT_REDIRECT_URL = 'home'
