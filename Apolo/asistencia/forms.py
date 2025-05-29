@@ -2,7 +2,8 @@
 
 from django import forms
 from .models import CustomUser, Genero
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm # Importa UserCreationForm para RegistroForm
+from django.contrib.auth.forms import UserChangeForm # ¡NECESITARÁS ESTA IMPORTACIÓN para PerfilUsuarioForm!
 
 class RegistroForm(UserCreationForm):
     genero = forms.ModelChoiceField(
@@ -59,3 +60,42 @@ class RegistroForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de partida para editar usuarios existentes
+    class Meta(UserChangeForm.Meta):
+        model = CustomUser
+        fields = (
+            'username', 'first_name', 'last_name', 'email',
+            'genero', 'tipo_usuario', 'nacionalidad', 'numDoc', 'telefono',
+            'fechaNacimiento', 'evidenciaTrabajo', 'experienciaTrabajo', 'hojaVida',
+        )
+        labels = {
+            'username': 'Nombre de Usuario',
+            'first_name': 'Nombres',
+            'last_name': 'Apellidos',
+            'email': 'Correo Electrónico',
+            'genero': 'Género',
+            'tipo_usuario': 'Tipo de Usuario',
+            'nacionalidad': 'Nacionalidad',
+            'numDoc': 'Número de Documento',
+            'telefono': 'Teléfono',
+            'fechaNacimiento': 'Fecha de Nacimiento',
+            'evidenciaTrabajo': 'Evidencia de Trabajo',
+            'experienciaTrabajo': 'Experiencia de Trabajo',
+            'hojaVida': 'Link Hoja de Vida',
+        }
+
+    # Puedes personalizar el widget de cada campo si lo necesitas, similar a RegistroForm
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in self.fields:
+            # Aplica la clase 'form-control' a todos los campos por defecto
+            if field_name != 'password': # No aplicar a campos de contraseña si los incluyes
+                self.fields[field_name].widget.attrs.update({'class': 'form-control'})
+
+        # Ejemplo de personalización para un campo específico
+        self.fields['fechaNacimiento'].widget = forms.DateInput(attrs={'type': 'date', 'class': 'form-control'})
+        self.fields['evidenciaTrabajo'].widget = forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
+        self.fields['experienciaTrabajo'].widget = forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
+

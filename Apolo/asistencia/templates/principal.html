@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
-<<<<<<< HEAD
 
 {% block title %}DOIT | Principal cliente{% endblock %} {# Título para la pestaña del navegador #}
 
-{# Mover los enlaces de tus archivos CSS al bloque 'extra_css' en tu base.html #}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/principal.css' %}">
 <link rel="stylesheet" href="{% static 'css/modperf_cliente.css' %}">
 {% endblock %}
 
 {% block content %}
-    {# <!DOCTYPE html>, <html>, <head>, <body> REMOVIDOS - ya los proporciona base.html #}
 
     <div class="header-container">
         <div class="perfil-header">
             <div class="perfil-foto-container">
                 <img src="{% static 'images/fotoperfilMuj.jpg' %}" alt="Foto de perfil de Juliana" class="perfil-foto">
                 <p class="perfil-nombre">
-                    {# Mostrar el nombre y apellido del usuario logueado #}
+                    {# Lógica mejorada para mostrar el nombre del usuario logueado #}
                     {% if user.is_authenticated %}
-                        {{ user.first_name }} {{ user.last_name }}
+                        {% if user.first_name and user.last_name %}
+                            {{ user.first_name }} {{ user.last_name }}
+                        {% elif user.first_name %}
+                            {{ user.first_name }}
+                        {% elif user.username %} {# Si no hay nombre ni apellido, usa el nombre de usuario #}
+                            {{ user.username }}
+                        {% else %} {# Fallback para un caso muy improbable #}
+                            Usuario desconocido
+                        {% endif %}
                     {% else %}
-                        Invitado
+                        Invitado {# Esto no debería verse, ya que la página está protegida #}
                     {% endif %}
                 </p>
             </div>
@@ -30,44 +35,22 @@
                 {# Asegúrate de que 'perfil' sea el nombre de la URL para la vista de edición #}
                 <a href="{% url 'perfil' %}">
                     <button class="modificar-perfil-btn">Modificar perfil</button>
-=======
-{% block content %}
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOIT | Principal cliente</title>
-    <link rel="stylesheet" href="{% static 'css/principal.css' %}">
-    <link rel="stylesheet" href="{% static 'css/modperf_cliente.css' %}">
-</head>
-<body>
-    <div class="header-container">
-        <div class="perfil-header">
-            <div class="perfil-foto-container">
-                <img src="{% static 'images/fotoperfilMuj.jpg' %}" alt="Foto de perfil del usuario" class="perfil-foto">
-                <p class="perfil-nombre">{{ user.first_name|default:'' }} {{ user.last_name|default:'' }}</p>            
-            <div>
-                <a href="{% url 'modificar' %}">
-                <button class="modificar-perfil-btn">Modificar perfil</button>
->>>>>>> origin/master
                 </a>
             </div>
         </div>
 
         <div class="banner-bienvenida">
-<<<<<<< HEAD
             <div class="contenido-banner">
                 <h1>👋 ¡Bienvenid@
-                    {# Opcional: Puedes repetir el nombre aquí si lo deseas #}
+                    {# También muestra el nombre (o username) en el saludo #}
                     {% if user.is_authenticated %}
-                        {{ user.first_name }}
+                        {% if user.first_name %}
+                            {{ user.first_name }}
+                        {% elif user.username %}
+                            {{ user.username }}
+                        {% endif %}
                     {% endif %}
                     a
-=======
-            <div class="contenido-banner">  
-                <h1>👋 ¡Bienvenid@ a
->>>>>>> origin/master
                     <a href="{% url 'home' %}">
                         <img src="{% static 'images/Doit_logo.png' %}" alt="Logo Doit" width="80">
                     </a>
@@ -105,11 +88,7 @@
                 <select id="hogar">
                     <option>Aseo General</option>
                     <option>Limpieza Profunda</option>
-<<<<<<< HEAD
                     <option>Organización</option>
-=======
-                    <option>Organización</option>   
->>>>>>> origin/master
                 </select>
                 <a href="{% url 'reserva' %}">
                     <button type="button">Reservar</button>
@@ -209,9 +188,4 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-=======
-    </body>
-</html><br>
->>>>>>> origin/master
 {% endblock content %}

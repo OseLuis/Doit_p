@@ -1,17 +1,12 @@
-# asistencia/views.py
-
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login as auth_login, logout as auth_logout, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistroForm, PerfilUsuarioForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required # Mantén esta importación para otras vistas
 from django.contrib import messages
 
-# --- Vistas protegidas con @login_required ---
-
-@login_required
-def home(request):
+def home(request): 
     return render(request, 'home.html')
 
 @login_required
