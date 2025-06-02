@@ -1,16 +1,28 @@
 # Python
-__pycache__/          # Ignora todas las carpetas __pycache__
-*.pyc                 # Ignora todos los archivos .pyc (por si están fuera de __pycache__)
+# Archivos de caché de Python
+__pycache__/
+*.pyc
 *.pyd
 *.pyo
-.Python               # Directorio de entornos virtuales de Python (Windows)
 
-# Django
-db.sqlite3            # Archivo de base de datos SQLite (si usas Django con SQLite, no versionar la DB)
-/media                # Carpeta para archivos subidos por usuarios
-/static               # Carpeta para archivos estáticos recolectados (ej. con collectstatic)
-*.log                 # Archivos de log
-local_settings.py     # Si tienes un archivo de configuración local separado
-.env                  # Archivo de variables de entorno
-venv/                 # Directorio de tu entorno virtual de Python
-.venv/                # Otro nombre común para directorios de entornos virtuales
+# Archivos de entornos virtuales
+venv/
+.venv/
+env/
+*.env
+
+# Base de datos local de Django
+db.sqlite3
+
+# Archivos de static y media que Django pueda generar localmente
+/static_root/
+/media_root/
+
+# Logs
+*.log
+
+# Archivos de configuración de IDEs (opcional, pero recomendado)
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
