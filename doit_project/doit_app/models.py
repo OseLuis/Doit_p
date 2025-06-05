@@ -50,9 +50,7 @@ class CustomUser(AbstractUser):
         """Retorna True si el usuario tiene el rol 'experto'."""
         return self.tipo_usuario == 'experto'
 
-# NUEVOS MODELOS basados en el esquema SQL, adaptados para usar CustomUser
-
-# 2. TipoDoc (del esquema SQL)
+#  TipoDoc 
 class TipoDoc(models.Model):
     Nombre = models.CharField(max_length=50, verbose_name="Nombre del tipo de documento")
 
@@ -65,7 +63,7 @@ class TipoDoc(models.Model):
     def __str__(self):
         return self.Nombre
 
-# 3. Categorias (del esquema SQL)
+#  Categorias 
 class Categorias(models.Model):
     Nombre = models.CharField(max_length=50, verbose_name="Nombre de la categoría")
 
@@ -78,50 +76,9 @@ class Categorias(models.Model):
     def __str__(self):
         return self.Nombre
 
-# 4. Pais (del esquema SQL)
-class Pais(models.Model):
-    Nombre = models.CharField(max_length=50, verbose_name="Nombre del país")
 
-    class Meta:
-        verbose_name = "País"
-        verbose_name_plural = "Países"
-        db_table = "Pais"
-        app_label = "doit_app"
 
-    def __str__(self):
-        return self.Nombre
-
-# 5. Departamento (del esquema SQL)
-class Departamento(models.Model):
-    Nombre = models.CharField(max_length=50, verbose_name="Nombre del departamento")
-    idPais = models.ForeignKey(Pais, on_delete=models.CASCADE, verbose_name="País")
-
-    class Meta:
-        verbose_name = "Departamento"
-        verbose_name_plural = "Departamentos"
-        db_table = "Departamento"
-        app_label = "doit_app"
-
-    def __str__(self):
-        return self.Nombre
-
-# 6. Ciudad (del esquema SQL)
-class Ciudad(models.Model):
-    Nombre = models.CharField(max_length=50, verbose_name="Nombre de la ciudad")
-    idDepartamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, verbose_name="Departamento")
-
-    class Meta:
-        verbose_name = "Ciudad"
-        verbose_name_plural = "Ciudades"
-        db_table = "Ciudad"
-        app_label = "doit_app"
-
-    def __str__(self):
-        return self.Nombre
-
-# 7. Rol (del esquema SQL) - Esta tabla se reemplaza por CustomUser.tipo_usuario
-
-# 8. Metodo (del esquema SQL)
+# Metodo 
 class Metodo(models.Model):
     Nombre = models.CharField(max_length=100, verbose_name="Nombre del método de pago")
 
@@ -134,7 +91,7 @@ class Metodo(models.Model):
     def __str__(self):
         return self.Nombre
 
-# 9. Estado (del esquema SQL)
+# Estado 
 class Estado(models.Model):
     Nombre = models.CharField(max_length=50, verbose_name="Nombre del estado")
 
@@ -147,7 +104,8 @@ class Estado(models.Model):
     def __str__(self):
         return self.Nombre
 
-# 10. Pagos (del esquema SQL)
+
+#  Pagos 
 class Pagos(models.Model):
     Monto = models.FloatField(verbose_name="Valor del servicio")
     # Renombrado para evitar conflicto con el modelo 'Estado'
@@ -166,10 +124,8 @@ class Pagos(models.Model):
     def __str__(self):
         return f"Pago #{self.id} - Monto: {self.Monto} - Estado: {self.estado_pago_texto}"
 
-# 11. Usuario (del esquema SQL) - Esta tabla se reemplaza por CustomUser.
-# Las relaciones ahora apuntan a settings.AUTH_USER_MODEL
 
-# 12. Profesion (del esquema SQL)
+#  Profesion (del esquema SQL)
 class Profesion(models.Model):
     Nombre = models.CharField(max_length=50, verbose_name="Nombre de la profesión")
     Descripcion = models.CharField(max_length=100, verbose_name="Descripción de la profesión")
@@ -185,19 +141,11 @@ class Profesion(models.Model):
     def __str__(self):
         return self.Nombre
 
-# 13. Servicios (del esquema SQL)
+
+#  Servicios (del esquema SQL)
 class Servicios(models.Model):
     NombreServicio = models.CharField(max_length=50, verbose_name="Nombre del servicio")
-    Precio = models.FloatField(verbose_name="Precio del servicio")
-    Ubicacion = models.CharField(max_length=100, verbose_name="Ubicación del experto")
-    Descripcion = models.CharField(max_length=150, verbose_name="Breve descripción del servicio")
-    Duracion = models.CharField(max_length=50, verbose_name="Duración del servicio")
-    # Enlaza con CustomUser
-    idUsuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Usuario que ofrece el servicio")
-    idCiudad = models.ForeignKey(Ciudad, on_delete=models.CASCADE, verbose_name="Ciudad donde se ofrece el servicio")
     idCategorias = models.ForeignKey(Categorias, on_delete=models.CASCADE, verbose_name="Categoría del servicio")
-    idestado = models.ForeignKey(Estado, on_delete=models.CASCADE, related_name='servicios_estado', verbose_name="Estado del servicio")
-    idPagos = models.ForeignKey(Pagos, on_delete=models.CASCADE, verbose_name="Pago del servicio")
 
     class Meta:
         verbose_name = "Servicio"
@@ -208,25 +156,8 @@ class Servicios(models.Model):
     def __str__(self):
         return self.NombreServicio
 
-# 14. Reserva (del esquema SQL)
-class Reserva(models.Model):
-    Fecha = models.DateField(verbose_name="Fecha de la reserva")
-    Hora = models.TimeField(verbose_name="Hora de la reserva")
-    # Enlaza con CustomUser
-    idUsuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reservas_hechas', verbose_name="Usuario que hace la reserva")
-    idEstado = models.ForeignKey(Estado, on_delete=models.CASCADE, related_name='reservas_estado', verbose_name="Estado de la reserva")
-    idServicios = models.ForeignKey(Servicios, on_delete=models.CASCADE, verbose_name="Servicio reservado")
 
-    class Meta:
-        verbose_name = "Reserva"
-        verbose_name_plural = "Reservas"
-        db_table = "Reserva"
-        app_label = "doit_app"
-
-    def __str__(self):
-        return f"Reserva #{self.id} - {self.Fecha} {self.Hora}"
-
-# 15. Calificaciones (del esquema SQL)
+#  Calificaciones
 class Calificaciones(models.Model):
     puntuacion = models.CharField(max_length=50, verbose_name="Puntuación del servicio")
     Comentario = models.CharField(max_length=150, verbose_name="Comentario del servicio")
@@ -243,3 +174,49 @@ class Calificaciones(models.Model):
 
     def __str__(self):
         return f"Calificación #{self.id} - Puntuación: {self.puntuacion}"
+
+
+# pais
+class Pais(models.Model):
+    nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+# departamento
+class Departamento(models.Model):
+    nombre = models.CharField(max_length=100)
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, related_name='departamentos')
+
+    def __str__(self):
+        return self.nombre
+
+# ciudad
+class Ciudad(models.Model):
+    nombre = models.CharField(max_length=100)
+    departamento = models.ForeignKey(Departamento, on_delete=models.CASCADE, related_name='ciudades')
+
+    def __str__(self):
+        return self.nombre
+
+
+# Reserva
+class Reserva(models.Model):
+    # Otros campos...
+    Fecha = models.DateField()
+    Hora = models.TimeField()
+    direccion = models.CharField(max_length=255)
+    descripcion = models.CharField(max_length=255)
+    detallesAdicionales = models.CharField(max_length=255)
+    ciudad = models.ForeignKey(Ciudad, on_delete=models.CASCADE)
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, default=1)
+    metodoDePago = models.CharField(max_length=50, choices=[
+        ('Efectivo', 'Efectivo'),
+        ('Tarjeta', 'Tarjeta'),
+        ('Transferencia', 'Transferencia'),
+    ])
+    idUsuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    idServicios = models.ForeignKey(Servicios, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Reserva #{self.id} - {self.Fecha} {self.Hora}"

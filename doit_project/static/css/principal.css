@@ -415,3 +415,80 @@ h2 {
     color: #ffffff;
     background-color: #007bff; /* Azul para aceptado/solicitado */
 }
+
+
+
+
+
+
+-------------
+.seccion-servicios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f3e9;
+    padding: 60px 20px;
+    min-height: 100vh;
+}
+
+.tarjeta-servicio {
+    background-color: #fffdf6;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.tarjeta-servicio h3 {
+    color: #003c47;
+    margin-bottom: 25px;
+}
+
+.grupo-formulario {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.grupo-formulario label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
+}
+
+.grupo-formulario select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.grupo-formulario select:disabled {
+    background-color: #eee;
+}
+
+button {
+    background-color: #003c47;
+    color: #fff;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    font-size: 15px;
+    transition: background-color 0.3s ease;
+}
+
+button:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    background-color: #015965;
+}

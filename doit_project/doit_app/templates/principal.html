@@ -62,52 +62,68 @@
 
     <a href="{% url 'busc_experto' %}" class="boton-experto">Buscar experto</a>
 
-    <section class="seccion-servicios">
-        <div class="categorias-servicios">
-            <div class="categoria">
-                <h3>Bienestar Personal</h3>
-                <label for="personal">Selecciona un servicio:</label>
-                <select id="personal">
-                    <option>Manicure</option>
-                    <option>Pedicure</option>
-                    <option>Maquillaje</option>
-                    <option>Peinado</option>
-                    <option>Barbería</option>
-                    <option>Color</option>
-                    <option>Asesoría</option>
-                    <option>Masajes</option>
-                    <option>Depilación</option>
-                </select>
-                <a href="{% url 'reserva' %}">
-                    <button type="button">Reservar</button>
-                </a>
-            </div>
-            <div class="categoria">
-                <h3>Bienestar Hogar</h3>
-                <label for="hogar">Selecciona un servicio:</label>
-                <select id="hogar">
-                    <option>Aseo General</option>
-                    <option>Limpieza Profunda</option>
-                    <option>Organización</option>
-                </select>
-                <a href="{% url 'reserva' %}">
-                    <button type="button">Reservar</button>
-                </a>
-            </div>
-            <div class="categoria">
-                <h3>Locativos</h3>
-                <label for="locativos">Selecciona un servicio:</label>
-                <select id="locativos">
-                    <option>Pintura</option>
-                    <option>Electricidad</option>
-                    <option>Plomería</option>
-                </select>
-                <a href="{% url 'reserva' %}">
-                    <button type="button">Reservar</button>
-                </a>
-            </div>
+<section class="seccion-servicios">
+    <div class="tarjeta-servicio">
+        <h3>Reserva tu servicio</h3>
+
+        <div class="grupo-formulario">
+            <label for="categoria">Selecciona una categoría:</label>
+            <select id="categoria">
+                <option selected disabled>-- Elige una categoría --</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.Nombre }}">{{ categoria.Nombre }}</option>
+                {% endfor %}
+            </select>
         </div>
-    </section>
+
+        <div class="grupo-formulario">
+            <label for="servicio">Selecciona un servicio:</label>
+            <select id="servicio" disabled>
+                <option selected>-- Elige un servicio --</option>
+            </select>
+        </div>
+
+        <a href="{% url 'reserva' %}">
+            <button id="reservarBtn" type="button" disabled>Reservar</button>
+        </a>
+    </div>
+</section>
+<script>
+    const categoriaSelect = document.getElementById('categoria');
+    const servicioSelect = document.getElementById('servicio');
+    const reservarBtn = document.getElementById('reservarBtn');
+
+    // Aquí pasamos desde Django los servicios agrupados por categoría
+    const serviciosPorCategoria = {
+        {% for categoria, servicios in servicios_por_categoria.items %}
+            "{{ categoria }}": [
+                {% for serv in servicios %}
+                    "{{ serv.NombreServicio }}",
+                {% endfor %}
+            ],
+        {% endfor %}
+    };
+
+    categoriaSelect.addEventListener('change', () => {
+        const seleccionada = categoriaSelect.value;
+        servicioSelect.innerHTML = '';
+        if(serviciosPorCategoria[seleccionada]) {
+            serviciosPorCategoria[seleccionada].forEach(serv => {
+                const option = document.createElement('option');
+                option.value = serv;
+                option.textContent = serv;
+                servicioSelect.appendChild(option);
+            });
+            servicioSelect.disabled = false;
+            reservarBtn.disabled = true;
+        }
+    });
+
+    servicioSelect.addEventListener('change', () => {
+        reservarBtn.disabled = false;
+    });
+</script>
+
     <section class="contenido-principal">
         <div class="servicios-cerca">
         <h2>Servicios:</h2>
@@ -152,6 +168,9 @@
                 </div>
             </div>
         </div>
+
+
+
         <div class="servicios">
             <article class="servicio">
             <h2>CUIDADO PERSONAL</h2>
@@ -183,7 +202,7 @@
                 <h3>Plomería</h3>
             </div>
             <div class="servicio-cuadro">
-                <img src="{% static 'images/21.png' %}" alt="Aseo a domicilio">
+                <img src="{% static 'images/21.png' %}" alt="Aseo">
                 <h3>Aseo</h3>
             </div>
         </div>

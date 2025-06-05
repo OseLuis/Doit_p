@@ -5,13 +5,27 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistroForm, PerfilUsuarioForm
 from django.contrib.auth.decorators import login_required # Mantén esta importación para otras vistas
 from django.contrib import messages
+from .forms import ReservaForm
+from .models import Estado
+from .models import Servicios , Categorias
 
 def home(request): 
     return render(request, 'home.html')
 
 @login_required
 def principal(request):
-    return render(request, 'principal.html')
+    categorias = Categorias.objects.all()
+    servicios = Servicios.objects.all()
+    
+    # Agrupamos los servicios por categoría (clave: id o nombre de categoría)
+    servicios_por_categoria = {}
+    for cat in categorias:
+        servicios_por_categoria[cat.Nombre] = list(servicios.filter(idCategorias=cat))
+    
+    return render(request, 'principal.html', {
+        'categorias': categorias,
+        'servicios_por_categoria': servicios_por_categoria,
+    })
 
 @login_required
 def busc_experto(request):
@@ -85,9 +99,25 @@ def admin_principal(request):
 def solicitudes_admin(request):
     return render(request, 'solicitudes_admin.html')
 
+
 @login_required
 def reserva(request):
-    return render(request, 'reserva.html')
+    if request.method == 'POST':
+        form = ReservaForm(request.POST)
+        if form.is_valid():
+            reserva = form.save(commit=False)
+            reserva.idUsuario = request.user  # asignar usuario actual
+            reserva.idEstado_id = 1  # ejemplo: estado inicial
+            reserva.idServicios_id = 1  # ejemplo: servicio predeterminado
+            reserva.save()
+            return redirect('servicioAceptado')  # redirige después de guardar
+    else:
+        form = ReservaForm()
+    return render(request, 'reserva.html', {'form': form})
+
+@login_required
+def servicioAceptado(request):
+    return render(request, 'servicioAceptado.html')
 
 # --- Vistas de Autenticación y Registro (NO deben tener @login_required) ---
 

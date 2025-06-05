@@ -2,8 +2,10 @@
 
 from django import forms
 from .models import CustomUser, Genero
+from .models import Reserva
 from django.contrib.auth.forms import UserCreationForm # Importa UserCreationForm para RegistroForm
 from django.contrib.auth.forms import UserChangeForm # ¡NECESITARÁS ESTA IMPORTACIÓN para PerfilUsuarioForm!
+
 
 class RegistroForm(UserCreationForm):
     genero = forms.ModelChoiceField(
@@ -86,7 +88,7 @@ class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de pa
             'hojaVida': 'Link Hoja de Vida',
         }
 
-    # Puedes personalizar el widget de cada campo si lo necesitas, similar a RegistroForm
+# Puedes personalizar el widget de cada campo si lo necesitas, similar a RegistroForm
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -99,3 +101,20 @@ class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de pa
         self.fields['evidenciaTrabajo'].widget = forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
         self.fields['experienciaTrabajo'].widget = forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
 
+
+
+class ReservaForm(forms.ModelForm):
+    Fecha = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d'],
+        label='Fecha'
+    )
+    Hora = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        input_formats=['%H:%M'],
+        label='Hora'
+    )
+
+    class Meta:
+        model = Reserva
+        fields = ['Fecha', 'Hora', 'direccion', 'descripcion', 'detallesAdicionales', 'metodoDePago', 'pais', 'ciudad']
