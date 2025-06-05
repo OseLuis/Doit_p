@@ -9,10 +9,8 @@ from .forms import ReservaForm
 from .models import Estado
 from .models import Servicios , Categorias
 
-
 def home(request): 
     return render(request, 'home.html')
-
 
 @login_required
 def principal(request):
@@ -28,7 +26,6 @@ def principal(request):
         'categorias': categorias,
         'servicios_por_categoria': servicios_por_categoria,
     })
-
 
 @login_required
 def busc_experto(request):
@@ -103,7 +100,6 @@ def solicitudes_admin(request):
     return render(request, 'solicitudes_admin.html')
 
 
-
 @login_required
 def reserva(request):
     if request.method == 'POST':
@@ -118,7 +114,6 @@ def reserva(request):
     else:
         form = ReservaForm()
     return render(request, 'reserva.html', {'form': form})
-
 
 @login_required
 def servicioAceptado(request):
@@ -143,6 +138,7 @@ def user_login_view(request):
 def user_logout_view(request):
     auth_logout(request)
     return redirect(reverse_lazy('home'))
+
 
 def login_experto(request):
     if request.method == 'POST':

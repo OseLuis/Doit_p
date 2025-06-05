@@ -5,7 +5,7 @@ from .models import Genero, CustomUser # Importa tus modelos
 from .models import Servicios
 from .models import Estado
 from .models import Categorias
-
+from .models import Pais, Departamento, Ciudad
 
 # Importa UserAdmin del módulo de autenticación de Django
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -42,27 +42,41 @@ class CustomUserAdmin(BaseUserAdmin):
     # Ordenamiento por defecto en la lista de usuarios
     ordering = ('username',)
 
-
+# servicios
 @admin.register(Servicios)
 class ServiciosAdmin(admin.ModelAdmin):
     list_display = ('NombreServicio', 'idCategorias')  # columnas que quieres mostrar en la lista
     search_fields = ('NombreServicio',)               # para buscar por nombre de servicio
     list_filter = ('idCategorias',) 
 
-
-
+# estados
 @admin.register(Estado)
 class EstadoAdmin(admin.ModelAdmin):
     list_display = ('Nombre',)
     search_fields = ('Nombre',)
 
-#@admin.register(Pagos)
-#class PagosAdmin(admin.ModelAdmin):
-#   list_display = ('id', 'Monto', 'estado_pago_texto', 'Fecha', 'idMetodo', 'idestado')
-#  search_fields = ('estado_pago_texto',)
-# list_filter = ('Fecha', 'idMetodo', 'idestado')
-
+# categorias
 @admin.register(Categorias)
 class CategoriasAdmin(admin.ModelAdmin):
     list_display = ('Nombre',)      # Mostrar el nombre de la categoría en la lista
     search_fields = ('Nombre',)     # Permitir buscar por nombre
+
+# pais
+@admin.register(Pais)
+class PaisAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nombre']
+    search_fields = ['nombre']
+
+# departamento
+@admin.register(Departamento)
+class DepartamentoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nombre', 'pais']
+    list_filter = ['pais']
+    search_fields = ['nombre']
+
+# ciudad
+@admin.register(Ciudad)
+class CiudadAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nombre', 'departamento']
+    list_filter = ['departamento']
+    search_fields = ['nombre']
