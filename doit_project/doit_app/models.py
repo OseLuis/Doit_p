@@ -15,7 +15,6 @@ class Genero(models.Model):
     def __str__(self):
         return self.nombre
 
-
 # Modelo CustomUser existente (del código que proporcionaste), con adiciones
 class CustomUser(AbstractUser):
     tipo_usuario_choices = [
@@ -221,4 +220,3 @@ class Reserva(models.Model):
 
     def __str__(self):
         return f"Reserva #{self.id} - {self.Fecha} {self.Hora}"
-

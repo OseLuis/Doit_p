@@ -139,7 +139,6 @@ def user_logout_view(request):
     auth_logout(request)
     return redirect(reverse_lazy('home'))
 
-
 def login_experto(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
