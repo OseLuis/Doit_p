@@ -63,6 +63,7 @@ class RegistroForm(UserCreationForm):
             user.save()
         return user
 
+
 class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de partida para editar usuarios existentes
     class Meta(UserChangeForm.Meta):
         model = CustomUser
@@ -87,7 +88,7 @@ class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de pa
             'hojaVida': 'Link Hoja de Vida',
         }
 
-    # Puedes personalizar el widget de cada campo si lo necesitas, similar a RegistroForm
+# Puedes personalizar el widget de cada campo si lo necesitas, similar a RegistroForm
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name in self.fields:
@@ -101,18 +102,19 @@ class PerfilUsuarioForm(UserChangeForm): # UserChangeForm es un buen punto de pa
         self.fields['experienciaTrabajo'].widget = forms.Textarea(attrs={'class': 'form-control', 'rows': 3})
 
 
+
 class ReservaForm(forms.ModelForm):
+    Fecha = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'}),
+        input_formats=['%Y-%m-%d'],
+        label='Fecha'
+    )
+    Hora = forms.TimeField(
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        input_formats=['%H:%M'],
+        label='Hora'
+    )
+
     class Meta:
         model = Reserva
-        fields = [
-            'Fecha', 'Hora', 'direccion', 'descripcion', 'detallesAdicionales',
-            'Ciudad', 'Departamento', 'pais', 'metodoDePago'
-        ]
-        widgets = {
-            'Fecha': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'Hora': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
-            'descripcion': forms.TextInput(attrs={'class': 'form-control'}),
-            'detallesAdicionales': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
+        fields = ['Fecha', 'Hora', 'direccion', 'descripcion', 'detallesAdicionales', 'metodoDePago', 'pais', 'ciudad']
