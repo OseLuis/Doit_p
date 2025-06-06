@@ -32,17 +32,6 @@
                 {% endif %}
             </div>
             <ul class="nav-links">
-                <li class="dropdown">
-                    <a href="#">Presentación</a>
-                    <div class="dropdown-content">
-                        <a href="{% url 'modelo_relacional' %}">Modelo Relacional</a>
-                        <a href="{% url 'normalizacion' %}">Normalización</a>
-                        <a href="{% url 'diccionario_de_datos' %}">Diccionario de Datos</a>
-                        <a href="{% url 'sentenciasddl' %}">Sentencias DDL</a>
-                        <a href="{% url 'sentencias_dml' %}">Sentencias DML</a>
-                        <a href="{% url 'diagrama_de_clases' %}">Diagrama de clases</a>
-                    </div>
-                </li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Cerrar Sesión</a></li>
                 {% endif %}

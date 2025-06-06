@@ -2,11 +2,11 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ffe5cc;
+    background-color: #EEEEEE;
 }
 
 header {
-    background-color: #fdff6d;
+    background-color:  #0b6e7b;
     color: #fff;
     padding: 1rem 0;
     width: 100%;
@@ -36,7 +36,7 @@ nav {
 }
 
 .nav-links a {
-    color: #01304a;
+    color: #e67e15;
     text-decoration: none;
 }
 
@@ -96,8 +96,8 @@ nav {
 
 
 footer {
-    background-color: #01304a;
-    color: #eaa7b1;
+    background-color: #0b6e7b;
+    color: #dadada;
     text-align: center;
     padding: 1rem 0;
     width: 100%;
