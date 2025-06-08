@@ -102,18 +102,42 @@ def solicitudes_admin(request):
 
 @login_required
 def reserva(request):
+    servicio_id = request.GET.get('servicio_id') or request.session.get('servicio_id')
+
+    if servicio_id:
+        request.session['servicio_id'] = servicio_id  # guardamos en sesión para mantener entre peticiones
+    else:
+        messages.error(request, "Servicio no seleccionado. Por favor, selecciona un servicio primero.")
+        return redirect('pantalla_principal')  # Cambia por el nombre real de tu url principal
+
+    servicio = Servicios.objects.filter(id=servicio_id).first()
+    if not servicio:
+        messages.error(request, "Servicio inválido.")
+        return redirect('pantalla_principal')
+
     if request.method == 'POST':
         form = ReservaForm(request.POST)
         if form.is_valid():
             reserva = form.save(commit=False)
-            reserva.idUsuario = request.user  # asignar usuario actual
-            reserva.idEstado_id = 1  # ejemplo: estado inicial
-            reserva.idServicios_id = 1  # ejemplo: servicio predeterminado
+            reserva.idUsuario = request.user
+            reserva.idEstado_id = 1  # estado inicial
+            reserva.idServicios = servicio
             reserva.save()
-            return redirect('servicioAceptado')  # redirige después de guardar
+            messages.info(request,  f"✅ Reserva pendiente para {request.user.get_full_name() or request.user.username}\n"
+                                    f"🛎️ Servicio: {servicio.NombreServicio}\n"
+                                    f"📅 Fecha: {reserva.Fecha}\n"
+                                    f"🕒 Hora: {reserva.Hora}\n"
+                                    f"📍 Dirección: {reserva.direccion}"
+            )
+            return redirect('principal')  # O a donde quieras redirigir luego de reservar
     else:
         form = ReservaForm()
-    return render(request, 'reserva.html', {'form': form})
+    return render(request, 'reserva.html', {'form': form, 'servicio': servicio})
+
+
+
+
+
 
 @login_required
 def servicioAceptado(request):
