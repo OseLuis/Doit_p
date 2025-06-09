@@ -108,12 +108,12 @@ def reserva(request):
         request.session['servicio_id'] = servicio_id  # guardamos en sesión para mantener entre peticiones
     else:
         messages.error(request, "Servicio no seleccionado. Por favor, selecciona un servicio primero.")
-        return redirect('pantalla_principal')  # Cambia por el nombre real de tu url principal
+        return redirect('principal')  # Cambia por el nombre real de tu url principal
 
     servicio = Servicios.objects.filter(id=servicio_id).first()
     if not servicio:
         messages.error(request, "Servicio inválido.")
-        return redirect('pantalla_principal')
+        return redirect('principal')
 
     if request.method == 'POST':
         form = ReservaForm(request.POST)
